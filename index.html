@@ -1,0 +1,1480 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<title>TOEIC 단어장</title>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="TOEIC 단어장" />
+<meta name="theme-color" content="#15171e" />
+<link rel="apple-touch-icon" href="icon-180.png" />
+<link rel="icon" type="image/png" href="icon-192.png" />
+<link rel="manifest" href="manifest.json" />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"
+/>
+
+<style>
+  :root {
+    --bg: #15171e;
+    --surface: #1d2029;
+    --surface-2: #252934;
+    --line: #2e323e;
+    --text: #eef0f5;
+    --muted: #8b91a3;
+    --faint: #5a6072;
+    --accent: #8b8cff;
+    --accent-text: #14151c;
+    --accent-soft: rgba(139, 140, 255, 0.14);
+    --known: #5ad6a0;
+    --known-soft: rgba(90, 214, 160, 0.13);
+    --unknown: #ff8f9c;
+    --unknown-soft: rgba(255, 143, 156, 0.12);
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    --radius: 18px;
+  }
+  [data-theme="light"] {
+    --bg: #f4f6f9;
+    --surface: #ffffff;
+    --surface-2: #eef1f6;
+    --line: #e3e7ee;
+    --text: #1b1e27;
+    --muted: #697086;
+    --faint: #9aa1b2;
+    --accent: #5b5cf0;
+    --accent-text: #ffffff;
+    --accent-soft: rgba(91, 92, 240, 0.1);
+    --known: #1fa97a;
+    --known-soft: rgba(31, 169, 122, 0.12);
+    --unknown: #e0566a;
+    --unknown-soft: rgba(224, 86, 106, 0.1);
+    --shadow: 0 8px 30px rgba(80, 90, 120, 0.12);
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+  #app {
+    max-width: 460px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px env(safe-area-inset-bottom);
+  }
+
+  header {
+    padding: 20px 4px 14px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .brand h1 span {
+    color: var(--accent);
+  }
+  .icon-row {
+    display: flex;
+    gap: 6px;
+  }
+  .icon-btn {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--text);
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    font-size: 17px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 14px;
+    font-size: 12.5px;
+    color: var(--muted);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .progress-track {
+    margin-top: 8px;
+    height: 6px;
+    border-radius: 100px;
+    background: var(--surface-2);
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--known));
+    border-radius: 100px;
+    transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  nav {
+    display: flex;
+    gap: 4px;
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 4px;
+    margin: 16px 0 18px;
+    border: 1px solid var(--line);
+  }
+  nav button {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 9px 0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+  nav button.active {
+    background: var(--surface-2);
+    color: var(--text);
+  }
+  main {
+    flex: 1;
+    padding-bottom: 28px;
+  }
+
+  .goal-strip {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+  }
+  .ring {
+    flex: 0 0 auto;
+  }
+  .goal-text {
+    flex: 1;
+  }
+  .goal-text .gt-top {
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .goal-text .gt-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .goal-go {
+    border: 0;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 9px 14px;
+    border-radius: 11px;
+    cursor: pointer;
+  }
+
+  .filter-pills {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 14px;
+    justify-content: center;
+  }
+  .filter-pills button {
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 7px 13px;
+    border-radius: 100px;
+    cursor: pointer;
+  }
+  .filter-pills button.on {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-color: transparent;
+  }
+
+  .card-stage {
+    perspective: 1400px;
+  }
+  .flashcard {
+    position: relative;
+    width: 100%;
+    height: 330px;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .flashcard.flipped {
+    transform: rotateY(180deg);
+  }
+  .face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: 24px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+    text-align: center;
+  }
+  .face.back {
+    transform: rotateY(180deg);
+    background: linear-gradient(160deg, var(--surface-2), var(--surface));
+  }
+  .pos {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .word {
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+  .speak-btn {
+    margin-top: 14px;
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+    color: var(--text);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .flip-hint {
+    position: absolute;
+    bottom: 16px;
+    font-size: 12px;
+    color: var(--faint);
+  }
+  .meaning {
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .example {
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 300px;
+  }
+  .example b {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 9px;
+    border-radius: 100px;
+  }
+  .badge.known {
+    color: var(--known);
+    background: var(--known-soft);
+  }
+  .badge.unknown {
+    color: var(--unknown);
+    background: var(--unknown-soft);
+  }
+
+  .swipe-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 18px;
+  }
+  .swipe-row button {
+    flex: 1;
+    border: 0;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 16px 0;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: transform 0.12s ease;
+  }
+  .swipe-row button:active {
+    transform: scale(0.96);
+  }
+  .btn-unknown {
+    background: var(--unknown-soft);
+    color: var(--unknown);
+  }
+  .btn-known {
+    background: var(--known-soft);
+    color: var(--known);
+  }
+  .nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .nav-row button {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--text);
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  .quiz-score {
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+  .quiz-q {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 32px 24px;
+    text-align: center;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+  }
+  .quiz-q .word {
+    font-size: 32px;
+  }
+  .quiz-opt {
+    width: 100%;
+    text-align: left;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 17px 18px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .quiz-opt.correct {
+    background: var(--known-soft);
+    border-color: transparent;
+    color: var(--known);
+  }
+  .quiz-opt.wrong {
+    background: var(--unknown-soft);
+    border-color: transparent;
+    color: var(--unknown);
+  }
+  .next-btn {
+    width: 100%;
+    border: 0;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 800;
+    padding: 15px 0;
+    border-radius: var(--radius);
+    margin-top: 6px;
+    cursor: pointer;
+  }
+
+  .search-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .search-bar input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 13px;
+    padding: 13px 15px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+  }
+  .search-bar input:focus {
+    border-color: var(--accent);
+  }
+  .add-btn {
+    border: 0;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-size: 22px;
+    font-weight: 700;
+    width: 48px;
+    border-radius: 13px;
+    cursor: pointer;
+  }
+  .list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 9px;
+  }
+  .list-item .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 100px;
+    flex: 0 0 auto;
+    background: var(--faint);
+  }
+  .list-item .dot.known {
+    background: var(--known);
+  }
+  .list-item .dot.unknown {
+    background: var(--unknown);
+  }
+  .list-item .li-word {
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .list-item .li-mean {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .list-item .li-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .li-speak {
+    border: 0;
+    background: var(--surface-2);
+    color: var(--muted);
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .li-tag {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 3px 7px;
+    border-radius: 100px;
+  }
+  .empty {
+    text-align: center;
+    color: var(--faint);
+    font-size: 14px;
+    padding: 50px 0;
+    line-height: 1.6;
+  }
+
+  .modal-bg {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 50;
+  }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 22px 22px 0 0;
+    width: 100%;
+    max-width: 460px;
+    padding: 22px 18px calc(22px + env(safe-area-inset-bottom));
+    animation: up 0.25s ease;
+    max-height: 88vh;
+    overflow-y: auto;
+  }
+  @keyframes up {
+    from {
+      transform: translateY(40px);
+      opacity: 0;
+    }
+  }
+  .modal h3 {
+    margin: 0 0 4px;
+    font-size: 17px;
+    font-weight: 800;
+  }
+  .modal .sub {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin: 0 0 16px;
+    line-height: 1.5;
+  }
+  .field-label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--muted);
+    margin: 14px 0 7px;
+  }
+  .modal input,
+  .modal textarea {
+    width: 100%;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 13px 14px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 15px;
+    margin-bottom: 10px;
+    outline: none;
+    resize: vertical;
+  }
+  .modal input:focus,
+  .modal textarea:focus {
+    border-color: var(--accent);
+  }
+  .stepper {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--surface-2);
+    border-radius: 12px;
+    padding: 8px 14px;
+    margin-bottom: 4px;
+  }
+  .stepper button {
+    border: 0;
+    background: var(--surface);
+    color: var(--text);
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .stepper .val {
+    flex: 1;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .modal-actions button {
+    flex: 1;
+    border: 0;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 14px 0;
+    border-radius: 13px;
+    cursor: pointer;
+  }
+  .modal-actions .cancel {
+    background: var(--surface-2);
+    color: var(--muted);
+  }
+  .modal-actions .save {
+    background: var(--accent);
+    color: var(--accent-text);
+  }
+  .full-btn {
+    width: 100%;
+    border: 0;
+    color: var(--accent-text);
+    background: var(--accent);
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 13px 0;
+    border-radius: 13px;
+    cursor: pointer;
+  }
+  .danger-btn {
+    width: 100%;
+    border: 1px solid var(--unknown-soft);
+    background: var(--unknown-soft);
+    color: var(--unknown);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 13px 0;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+  .hidden {
+    display: none !important;
+  }
+  code {
+    background: var(--surface-2);
+    padding: 1px 6px;
+    border-radius: 6px;
+    font-size: 12px;
+  }
+</style>
+
+<div id="app">
+  <header>
+    <div class="brand">
+      <h1>TOEIC <span>단어장</span></h1>
+      <div class="icon-row">
+        <button class="icon-btn" id="themeBtn" title="테마">🌙</button>
+        <button class="icon-btn" id="settingsBtn" title="설정">⚙️</button>
+      </div>
+    </div>
+    <div class="meta-row">
+      <span>전체 진행</span>
+      <span id="counter">0 / 0</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </header>
+
+  <nav>
+    <button data-tab="card" class="active">카드</button>
+    <button data-tab="quiz">퀴즈</button>
+    <button data-tab="list">단어장</button>
+  </nav>
+
+  <main>
+    <section id="tab-card">
+      <div class="goal-strip">
+        <svg class="ring" width="46" height="46" viewBox="0 0 46 46">
+          <circle cx="23" cy="23" r="19" fill="none" stroke="var(--surface-2)" stroke-width="5" />
+          <circle id="ringFill" cx="23" cy="23" r="19" fill="none" stroke="var(--accent)"
+            stroke-width="5" stroke-linecap="round" stroke-dasharray="119.4"
+            stroke-dashoffset="119.4" transform="rotate(-90 23 23)" />
+        </svg>
+        <div class="goal-text">
+          <div class="gt-top" id="goalTop">오늘의 목표</div>
+          <div class="gt-sub" id="goalSub">하루 학습량을 채워보세요</div>
+        </div>
+        <button class="goal-go" id="goalGo">오늘 학습</button>
+      </div>
+
+      <div class="filter-pills">
+        <button data-filter="all" class="on">전체</button>
+        <button data-filter="unknown">아직 몰라요</button>
+        <button data-filter="known">외운 단어</button>
+      </div>
+
+      <div class="card-stage">
+        <div class="flashcard" id="flashcard">
+          <div class="face front">
+            <div class="badge" id="cardBadge"></div>
+            <div class="pos" id="cardPos"></div>
+            <div class="word" id="cardWord"></div>
+            <button class="speak-btn" id="cardSpeak" title="발음 듣기">🔊</button>
+            <div class="flip-hint">탭하면 뜻이 보여요</div>
+          </div>
+          <div class="face back">
+            <div class="meaning" id="cardMeaning"></div>
+            <div class="example" id="cardExample"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="swipe-row">
+        <button class="btn-unknown" id="markUnknown">아직 몰라요</button>
+        <button class="btn-known" id="markKnown">외웠어요</button>
+      </div>
+      <div class="nav-row">
+        <button id="prevCard">‹</button>
+        <span id="cardCount">–</span>
+        <button id="nextCard">›</button>
+      </div>
+    </section>
+
+    <section id="tab-quiz" class="hidden">
+      <div class="quiz-score" id="quizScore">맞은 개수 0 · 푼 문제 0</div>
+      <div class="quiz-q">
+        <div class="pos" id="quizPos"></div>
+        <div class="word" id="quizWord"></div>
+        <button class="speak-btn" id="quizSpeak" title="발음 듣기">🔊</button>
+      </div>
+      <div id="quizOptions"></div>
+      <button class="next-btn hidden" id="quizNext">다음 문제 →</button>
+    </section>
+
+    <section id="tab-list" class="hidden">
+      <div class="search-bar">
+        <input id="searchInput" placeholder="단어 또는 뜻 검색" />
+        <button class="add-btn" id="openAdd">+</button>
+      </div>
+      <div id="listContainer"></div>
+    </section>
+  </main>
+</div>
+
+<div class="modal-bg hidden" id="addModal">
+  <div class="modal">
+    <h3>내 단어 추가</h3>
+    <p class="sub">단어 하나를 직접 추가해요.</p>
+    <input id="inWord" placeholder="단어 (예: efficient)" autocomplete="off" />
+    <input id="inMean" placeholder="뜻 (예: 효율적인)" autocomplete="off" />
+    <input id="inPos" placeholder="품사 (선택, 예: adj.)" autocomplete="off" />
+    <input id="inExample" placeholder="예문 (선택)" autocomplete="off" />
+    <div class="modal-actions">
+      <button class="cancel" data-close>취소</button>
+      <button class="save" id="saveAdd">추가하기</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg hidden" id="setModal">
+  <div class="modal">
+    <h3>설정</h3>
+    <p class="sub">하루 목표량 설정, 단어 가져오기, 학습 기록 초기화를 할 수 있어요.</p>
+
+    <div class="field-label">하루 학습 목표 (단어 수)</div>
+    <div class="stepper">
+      <button id="goalMinus">−</button>
+      <div class="val" id="goalVal">20</div>
+      <button id="goalPlus">+</button>
+    </div>
+
+    <div class="field-label">단어 한 번에 가져오기</div>
+    <p class="sub" style="margin-bottom:8px">
+      한 줄에 하나씩, <b>단어, 뜻, 예문(선택)</b> 순서로 붙여넣으세요. 쉼표나 탭으로 구분돼요.<br />
+      예: <code>efficient, 효율적인</code>
+    </p>
+    <textarea id="importBox" rows="6" placeholder="efficient, 효율적인&#10;reliable, 믿을 수 있는&#10;forecast, 예측, The forecast looks good."></textarea>
+    <button class="full-btn" id="importBtn">가져오기</button>
+
+    <div class="field-label" style="margin-top:20px">초기화</div>
+    <button class="danger-btn" id="resetProgress">학습 기록 초기화 (외움/복습 표시 지우기)</button>
+
+    <div class="modal-actions">
+      <button class="cancel" data-close>닫기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const BASE_WORDS = [
+    ["acquire","획득하다, 인수하다","v.","The firm will <b>acquire</b> a rival next year."],
+    ["allocate","배정하다, 할당하다","v.","We <b>allocate</b> a budget to each team."],
+    ["anticipate","예상하다, 기대하다","v.","We <b>anticipate</b> strong sales this quarter."],
+    ["appoint","임명하다, 지정하다","v.","She was <b>appointed</b> as the new director."],
+    ["assess","평가하다, 산정하다","v.","Please <b>assess</b> the project risks first."],
+    ["attend","참석하다","v.","All staff must <b>attend</b> the meeting."],
+    ["authorize","권한을 주다, 승인하다","v.","Only managers can <b>authorize</b> refunds."],
+    ["beneficial","유익한, 이로운","adj.","Regular exercise is <b>beneficial</b> to health."],
+    ["candidate","지원자, 후보","n.","We interviewed three <b>candidates</b> today."],
+    ["collaborate","협력하다","v.","The teams will <b>collaborate</b> on the design."],
+    ["commute","통근하다; 통근","v.","I <b>commute</b> by subway every morning."],
+    ["compensate","보상하다, 보충하다","v.","We will <b>compensate</b> you for the delay."],
+    ["complimentary","무료의, 칭찬하는","adj.","Guests get a <b>complimentary</b> breakfast."],
+    ["comply","준수하다, 따르다","v.","All vendors must <b>comply</b> with the rules."],
+    ["confirm","확인하다, 확정하다","v.","Please <b>confirm</b> your booking by email."],
+    ["consult","상담하다, 참고하다","v.","<b>Consult</b> the manual before installing."],
+    ["contribute","기여하다, 기부하다","v.","Everyone <b>contributed</b> ideas to the plan."],
+    ["coordinate","조정하다, 조율하다","v.","She will <b>coordinate</b> the event schedule."],
+    ["deadline","마감일, 기한","n.","The <b>deadline</b> for entries is Friday."],
+    ["delegate","위임하다; 대표","v.","Good leaders <b>delegate</b> tasks well."],
+    ["demonstrate","보여주다, 입증하다","v.","Let me <b>demonstrate</b> how it works."],
+    ["designate","지정하다, 지명하다","v.","This area is <b>designated</b> for parking."],
+    ["distribute","배포하다, 분배하다","v.","We <b>distribute</b> samples at the booth."],
+    ["eligible","자격이 있는","adj.","You are <b>eligible</b> for a full refund."],
+    ["emphasize","강조하다","v.","The CEO <b>emphasized</b> teamwork."],
+    ["enclose","동봉하다, 둘러싸다","v.","Please find the invoice <b>enclosed</b>."],
+    ["endorse","지지하다, 보증하다","v.","The board <b>endorsed</b> the proposal."],
+    ["enhance","향상시키다, 높이다","v.","New tools <b>enhance</b> productivity."],
+    ["ensure","보장하다, 확실히 하다","v.","Please <b>ensure</b> the door is locked."],
+    ["estimate","견적; 추정하다","n./v.","Can you give me an <b>estimate</b> by noon?"],
+    ["evaluate","평가하다","v.","Managers <b>evaluate</b> staff every year."],
+    ["exceed","초과하다, 능가하다","v.","Sales <b>exceeded</b> our expectations."],
+    ["expand","확장하다, 확대하다","v.","The firm plans to <b>expand</b> overseas."],
+    ["expense","비용, 경비","n.","Travel <b>expenses</b> will be reimbursed."],
+    ["expertise","전문 지식, 전문성","n.","Her <b>expertise</b> in finance is valuable."],
+    ["facilitate","촉진하다, 용이하게 하다","v.","The app <b>facilitates</b> remote work."],
+    ["feasible","실현 가능한","adj.","Is this plan really <b>feasible</b>?"],
+    ["forecast","예측; 예측하다","n./v.","The weather <b>forecast</b> looks good."],
+    ["generate","생성하다, 발생시키다","v.","The campaign <b>generated</b> many leads."],
+    ["implement","시행하다, 실행하다","v.","We will <b>implement</b> the new policy."],
+    ["incentive","장려책, 인센티브","n.","Bonuses are a strong <b>incentive</b>."],
+    ["initiative","주도권, 계획; 진취성","n.","She took the <b>initiative</b> on the project."],
+    ["inquiry","문의, 조사","n.","We received many <b>inquiries</b> today."],
+    ["inventory","재고, 재고 목록","n.","We check <b>inventory</b> every month."],
+    ["invoice","청구서, 송장","n.","The <b>invoice</b> is due in 30 days."],
+    ["itinerary","여행 일정표","n.","Here is your travel <b>itinerary</b>."],
+    ["launch","출시하다; 출시","v./n.","They will <b>launch</b> the product in May."],
+    ["maintain","유지하다, 정비하다","v.","We <b>maintain</b> high quality standards."],
+    ["mandatory","의무적인, 필수의","adj.","Safety training is <b>mandatory</b>."],
+    ["merge","합병하다, 합치다","v.","The two firms will <b>merge</b> next year."],
+    ["negotiate","협상하다","v.","We <b>negotiated</b> a better price."],
+    ["obtain","얻다, 획득하다","v.","You must <b>obtain</b> a permit first."],
+    ["overdue","기한이 지난, 연체된","adj.","This payment is two weeks <b>overdue</b>."],
+    ["oversee","감독하다","v.","She <b>oversees</b> the entire department."],
+    ["postpone","연기하다","v.","The meeting was <b>postponed</b> to Monday."],
+    ["prioritize","우선순위를 정하다","v.","We must <b>prioritize</b> urgent tasks."],
+    ["procedure","절차, 순서","n.","Follow the safety <b>procedure</b> exactly."],
+    ["proceed","진행하다, 나아가다","v.","Please <b>proceed</b> to the next step."],
+    ["prospective","장래의, 유망한","adj.","We met several <b>prospective</b> clients."],
+    ["purchase","구매하다; 구매","v./n.","You can <b>purchase</b> tickets online."],
+    ["recruit","모집하다, 채용하다","v.","We are <b>recruiting</b> new engineers."],
+    ["reimburse","상환하다, 변제하다","v.","We will <b>reimburse</b> your expenses."],
+    ["relevant","관련 있는, 적절한","adj.","Please attach <b>relevant</b> documents."],
+    ["reluctant","꺼리는, 마지못한","adj.","He was <b>reluctant</b> to agree."],
+    ["renovate","개조하다, 보수하다","v.","They plan to <b>renovate</b> the lobby."],
+    ["revenue","수익, 매출","n.","Annual <b>revenue</b> grew by 12%."],
+    ["shipment","배송, 수송품","n.","The <b>shipment</b> arrives on Thursday."],
+    ["streamline","간소화하다, 능률화하다","v.","We <b>streamlined</b> the approval process."],
+    ["supervise","감독하다, 관리하다","v.","She <b>supervises</b> ten employees."],
+    ["supplier","공급업체","n.","We changed our main <b>supplier</b>."],
+    ["tentative","잠정적인, 임시의","adj.","The date is still <b>tentative</b>."],
+    ["terminate","종료하다, 해지하다","v.","The contract was <b>terminated</b> early."],
+    ["transaction","거래","n.","Every <b>transaction</b> is recorded."],
+    ["vendor","판매업체, 노점상","n.","Several <b>vendors</b> joined the fair."],
+    ["warehouse","창고","n.","Goods are stored in the <b>warehouse</b>."],
+    ["waive","면제하다, 포기하다","v.","We can <b>waive</b> the late fee this time."],
+    ["accommodate","수용하다, 편의를 봐주다","v.","The hall can <b>accommodate</b> 300 guests."],
+    ["accomplish","성취하다, 달성하다","v.","We <b>accomplished</b> the goal ahead of time."],
+    ["accurate","정확한","adj.","Please keep the records <b>accurate</b>."],
+    ["adequate","충분한, 적절한","adj.","We have <b>adequate</b> funds for the trip."],
+    ["adjacent","인접한","adj.","The cafe is <b>adjacent</b> to the lobby."],
+    ["adjust","조정하다, 적응하다","v.","Please <b>adjust</b> the seat height."],
+    ["affordable","감당할 수 있는, 저렴한","adj.","We offer <b>affordable</b> pricing plans."],
+    ["agenda","의제, 안건","n.","The first item on the <b>agenda</b> is budget."],
+    ["alternative","대안; 대체의","n./adj.","Is there an <b>alternative</b> route?"],
+    ["amend","수정하다, 개정하다","v.","We need to <b>amend</b> the contract."],
+    ["applicant","지원자","n.","Each <b>applicant</b> must submit a resume."],
+    ["appropriate","적절한","adj.","Wear <b>appropriate</b> attire to the event."],
+    ["approve","승인하다","v.","The manager <b>approved</b> the request."],
+    ["approximately","대략, 약","adv.","The trip takes <b>approximately</b> two hours."],
+    ["assemble","조립하다, 모으다","v.","Workers <b>assemble</b> the parts by hand."],
+    ["asset","자산","n.","Skilled staff are our greatest <b>asset</b>."],
+    ["assign","배정하다, 할당하다","v.","I'll <b>assign</b> this task to Mr. Lee."],
+    ["assume","가정하다, 떠맡다","v.","Let's not <b>assume</b> the worst."],
+    ["assure","장담하다, 보장하다","v.","I <b>assure</b> you the issue is fixed."],
+    ["attain","달성하다, 이루다","v.","She <b>attained</b> her sales target early."],
+    ["available","이용 가능한, 시간이 되는","adj.","The room is <b>available</b> after 3 p.m."],
+    ["board","이사회; 탑승하다","n./v.","The <b>board</b> meets every quarter."],
+    ["boost","끌어올리다; 증대","v./n.","The ad campaign will <b>boost</b> sales."],
+    ["branch","지점, 분점","n.","Our new <b>branch</b> opens downtown."],
+    ["budget","예산","n.","The project went over <b>budget</b>."],
+    ["bulk","대량의; 대부분","adj./n.","We buy paper in <b>bulk</b> to save money."],
+    ["certificate","증명서, 자격증","n.","You'll receive a <b>certificate</b> of completion."],
+    ["clarify","명확히 하다","v.","Could you <b>clarify</b> the instructions?"],
+    ["client","고객, 의뢰인","n.","Our biggest <b>client</b> renewed the contract."],
+    ["colleague","동료","n.","I'll ask a <b>colleague</b> to cover for me."],
+    ["commitment","약속, 헌신","n.","We value our <b>commitment</b> to quality."],
+    ["competent","유능한, 능숙한","adj.","She is a <b>competent</b> and reliable manager."],
+    ["competitive","경쟁력 있는","adj.","We offer <b>competitive</b> salaries."],
+    ["complaint","불평, 항의","n.","The store handled my <b>complaint</b> quickly."],
+    ["component","구성 요소, 부품","n.","Each <b>component</b> is tested separately."],
+    ["conduct","수행하다; 행동","v./n.","We will <b>conduct</b> a customer survey."],
+    ["conference","회의, 학회","n.","The annual <b>conference</b> is held in May."],
+    ["consent","동의; 동의하다","n./v.","We need written <b>consent</b> from the client."],
+    ["consistent","일관된, 한결같은","adj.","Their service is always <b>consistent</b>."],
+    ["consolidate","통합하다, 강화하다","v.","We <b>consolidated</b> two offices into one."],
+    ["construct","건설하다, 구성하다","v.","They will <b>construct</b> a new factory."],
+    ["convenient","편리한","adj.","Is Friday a <b>convenient</b> day for you?"],
+    ["convert","전환하다, 변환하다","v.","We <b>converted</b> the file to PDF."],
+    ["convey","전달하다, 운반하다","v.","Please <b>convey</b> my thanks to the team."],
+    ["courteous","정중한, 예의 바른","adj.","The staff were friendly and <b>courteous</b>."],
+    ["criteria","기준, 평가 항목","n.","Applicants must meet all <b>criteria</b>."],
+    ["crucial","결정적인, 중대한","adj.","Timing is <b>crucial</b> for this launch."],
+    ["currency","통화, 화폐","n.","Prices are listed in local <b>currency</b>."],
+    ["decline","감소하다, 거절하다; 감소","v./n.","Sales <b>declined</b> slightly last month."],
+    ["dedicate","바치다, 전념하다","v.","She <b>dedicated</b> years to the project."],
+    ["deduct","공제하다, 빼다","v.","Taxes are <b>deducted</b> from your pay."],
+    ["defective","결함이 있는","adj.","We replaced the <b>defective</b> unit."],
+    ["depart","출발하다, 떠나다","v.","The train <b>departs</b> at nine sharp."],
+    ["deposit","보증금, 예치금; 입금하다","n./v.","A <b>deposit</b> is required to reserve."],
+    ["deserve","받을 만하다","v.","The team <b>deserves</b> the award."],
+    ["determine","결정하다, 알아내다","v.","We must <b>determine</b> the cause first."],
+    ["diminish","줄어들다, 약화되다","v.","Demand <b>diminished</b> over the winter."],
+    ["dispatch","발송하다; 발송","v./n.","We'll <b>dispatch</b> the order today."],
+    ["dispose","처분하다, 버리다","v.","Please <b>dispose</b> of waste properly."],
+    ["diverse","다양한","adj.","We have a <b>diverse</b> customer base."],
+    ["document","문서; 기록하다","n./v.","Save the <b>document</b> before closing."],
+    ["domestic","국내의, 가정의","adj.","The firm focuses on <b>domestic</b> markets."],
+    ["draft","초안; 작성하다","n./v.","I'll send you a <b>draft</b> by tomorrow."],
+    ["durable","내구성이 있는, 튼튼한","adj.","This case is light yet <b>durable</b>."],
+    ["duration","기간, 지속 시간","n.","The <b>duration</b> of the course is six weeks."],
+    ["economical","경제적인, 절약되는","adj.","This car is very <b>economical</b> on fuel."],
+    ["efficient","효율적인","adj.","The new system is far more <b>efficient</b>."],
+    ["elaborate","정교한; 자세히 설명하다","adj./v.","Could you <b>elaborate</b> on that point?"],
+    ["eliminate","제거하다, 없애다","v.","We aim to <b>eliminate</b> waste entirely."],
+    ["enroll","등록하다","v.","You can <b>enroll</b> in the program online."],
+    ["entrepreneur","기업가","n.","She is a successful young <b>entrepreneur</b>."],
+    ["equip","갖추다, 장비하다","v.","Each room is <b>equipped</b> with Wi-Fi."],
+    ["equivalent","동등한; 등가물","adj./n.","One dollar is <b>equivalent</b> to about 1,300 won."],
+    ["essential","필수적인, 본질적인","adj.","Teamwork is <b>essential</b> to success."],
+    ["establish","설립하다, 확립하다","v.","The company was <b>established</b> in 1998."],
+    ["evident","명백한, 분명한","adj.","His talent was <b>evident</b> from the start."],
+    ["exclusive","독점적인, 전용의","adj.","Members get <b>exclusive</b> discounts."],
+    ["exempt","면제되는; 면제하다","adj./v.","Students are <b>exempt</b> from the fee."],
+    ["exhibit","전시하다; 전시품","v./n.","The gallery will <b>exhibit</b> new works."],
+    ["expire","만료되다, 끝나다","v.","Your coupon will <b>expire</b> on Sunday."],
+    ["extend","연장하다, 확장하다","v.","We <b>extended</b> the deadline by a week."],
+    ["extensive","광범위한, 폭넓은","adj.","She has <b>extensive</b> sales experience."],
+    ["feature","특징; 특징으로 하다","n./v.","The phone's best <b>feature</b> is its camera."],
+    ["fee","요금, 수수료","n.","There is no <b>fee</b> for early registration."],
+    ["fluctuate","변동하다, 오르내리다","v.","Prices <b>fluctuate</b> with demand."],
+    ["foster","육성하다, 촉진하다","v.","We <b>foster</b> a culture of learning."],
+    ["fulfill","이행하다, 충족하다","v.","We always <b>fulfill</b> our promises."],
+    ["furnish","비치하다, 제공하다","v.","The apartment comes fully <b>furnished</b>."],
+    ["grant","승인하다, 주다; 보조금","v./n.","They were <b>granted</b> a research grant."],
+    ["guarantee","보장하다; 보증","v./n.","We <b>guarantee</b> next-day delivery."],
+    ["handle","처리하다, 다루다","v.","She can <b>handle</b> difficult clients well."],
+    ["hazard","위험, 위험 요소","n.","Loose wires are a safety <b>hazard</b>."],
+    ["headquarters","본사, 본부","n.","Our <b>headquarters</b> are in Seoul."],
+    ["hesitate","주저하다, 망설이다","v.","Don't <b>hesitate</b> to contact us."],
+    ["hire","고용하다; 고용","v./n.","We plan to <b>hire</b> five new staff."],
+    ["hospitality","환대, 접대","n.","Thank you for your kind <b>hospitality</b>."],
+    ["identify","확인하다, 식별하다","v.","We must <b>identify</b> the root problem."],
+    ["illustrate","설명하다, 예시하다","v.","The chart <b>illustrates</b> the growth."],
+    ["impact","영향; 영향을 주다","n./v.","The change had a big <b>impact</b> on sales."],
+    ["impose","부과하다, 강요하다","v.","The city <b>imposed</b> a new tax."],
+    ["impressive","인상적인","adj.","Their growth this year is <b>impressive</b>."],
+    ["incur","발생시키다, 초래하다","v.","Late returns <b>incur</b> a small fee."],
+    ["indicate","나타내다, 가리키다","v.","The data <b>indicates</b> a clear trend."],
+    ["inevitable","피할 수 없는","adj.","Some delay was <b>inevitable</b>."],
+    ["influence","영향을 주다; 영향","v./n.","Ads strongly <b>influence</b> buying choices."],
+    ["inform","알리다, 통지하다","v.","Please <b>inform</b> us of any changes."],
+    ["innovative","혁신적인","adj.","They offer <b>innovative</b> solutions."],
+    ["inspect","점검하다, 검사하다","v.","Engineers <b>inspect</b> the machines weekly."],
+    ["install","설치하다","v.","We'll <b>install</b> the software tomorrow."],
+    ["instruct","지시하다, 가르치다","v.","She <b>instructed</b> us to wait outside."],
+    ["integrate","통합하다","v.","We <b>integrated</b> the two databases."],
+    ["intend","의도하다, ~할 작정이다","v.","We <b>intend</b> to open three new stores."],
+    ["invest","투자하다","v.","They <b>invested</b> heavily in research."],
+    ["justify","정당화하다","v.","Can you <b>justify</b> the extra cost?"],
+    ["lease","임대; 임대하다","n./v.","We signed a two-year <b>lease</b>."],
+    ["legislation","법률, 입법","n.","New <b>legislation</b> takes effect in July."],
+    ["liable","책임이 있는, ~하기 쉬운","adj.","The company is <b>liable</b> for the damage."],
+    ["license","면허, 허가; 허가하다","n./v.","You need a <b>license</b> to operate this."],
+    ["locate","찾다, 위치시키다","v.","The office is <b>located</b> near the station."],
+    ["lucrative","수익성이 좋은","adj.","It turned out to be a <b>lucrative</b> deal."],
+    ["manufacture","제조하다; 제조","v./n.","They <b>manufacture</b> car parts locally."],
+    ["margin","마진, 이윤; 여백","n.","Profit <b>margins</b> are tight this year."],
+    ["mature","성숙한; 만기가 되다","adj./v.","The bond will <b>mature</b> in five years."],
+    ["mentor","멘토; 조언하다","n./v.","A senior staff member will <b>mentor</b> you."],
+    ["merchandise","상품","n.","All <b>merchandise</b> is 20% off today."],
+    ["minimal","최소한의","adj.","The repair caused <b>minimal</b> disruption."],
+    ["modify","수정하다, 변경하다","v.","We <b>modified</b> the design slightly."],
+    ["monitor","감시하다, 관찰하다","v.","We <b>monitor</b> the website traffic daily."],
+    ["motivate","동기를 부여하다","v.","Bonuses <b>motivate</b> the sales team."],
+    ["mutual","상호 간의, 서로의","adj.","The deal was a <b>mutual</b> benefit."],
+    ["nominate","지명하다, 추천하다","v.","She was <b>nominated</b> for the award."],
+    ["notify","통지하다, 알리다","v.","We'll <b>notify</b> you once it ships."],
+    ["numerous","수많은","adj.","We received <b>numerous</b> applications."],
+    ["obligation","의무, 책무","n.","You are under no <b>obligation</b> to buy."],
+    ["obsolete","구식의, 더 이상 쓸모없는","adj.","That model is now <b>obsolete</b>."],
+    ["occupy","차지하다, 점유하다","v.","The desk <b>occupies</b> half the room."],
+    ["opportunity","기회","n.","This is a great <b>opportunity</b> to grow."],
+    ["optional","선택적인","adj.","The extra training is <b>optional</b>."],
+    ["organize","조직하다, 정리하다","v.","She'll <b>organize</b> the welcome event."],
+    ["outcome","결과","n.","We're pleased with the <b>outcome</b>."],
+    ["outline","개요; 윤곽을 잡다","n./v.","He gave a brief <b>outline</b> of the plan."],
+    ["outstanding","뛰어난; 미지불의","adj.","Her work has been <b>outstanding</b>."],
+    ["overlook","간과하다, 내려다보다","v.","Don't <b>overlook</b> the small details."],
+    ["participate","참가하다","v.","All members can <b>participate</b> freely."],
+    ["penalty","벌금, 처벌","n.","Late payment carries a <b>penalty</b>."],
+    ["perceive","인지하다, 감지하다","v.","Customers <b>perceive</b> the brand as premium."],
+    ["permanent","영구적인, 정규의","adj.","She got a <b>permanent</b> position."],
+    ["permit","허가하다; 허가증","v./n.","Smoking is not <b>permitted</b> here."],
+    ["persist","지속하다, 고집하다","v.","If the error <b>persists</b>, call support."],
+    ["persuade","설득하다","v.","We <b>persuaded</b> them to extend the deal."],
+    ["portion","부분, 1인분","n.","A <b>portion</b> of the profit goes to charity."],
+    ["potential","잠재력; 잠재적인","n./adj.","The market has huge <b>potential</b>."],
+    ["practical","실용적인, 현실적인","adj.","We need a <b>practical</b> solution now."],
+    ["precise","정확한, 정밀한","adj.","Please give a <b>precise</b> measurement."],
+    ["predict","예측하다","v.","Analysts <b>predict</b> steady growth."],
+    ["preliminary","예비의, 사전의","adj.","These are only <b>preliminary</b> results."],
+    ["prescribe","처방하다, 규정하다","v.","The doctor <b>prescribed</b> some rest."],
+    ["preserve","보존하다, 지키다","v.","We work to <b>preserve</b> historic sites."],
+    ["prevent","막다, 예방하다","v.","Backups <b>prevent</b> data loss."],
+    ["profit","이익, 수익","n.","The store made a healthy <b>profit</b>."],
+    ["prohibit","금지하다","v.","Flash photography is <b>prohibited</b>."],
+    ["prominent","저명한, 두드러진","adj.","He is a <b>prominent</b> figure in finance."],
+    ["promote","홍보하다, 승진시키다","v.","She was <b>promoted</b> to senior manager."],
+    ["prompt","즉각적인; 촉발하다","adj./v.","Thank you for your <b>prompt</b> reply."],
+    ["proper","적절한, 올바른","adj.","Wear <b>proper</b> safety gear at all times."],
+    ["property","재산, 부동산, 속성","n.","The <b>property</b> has been on sale for months."],
+    ["propose","제안하다","v.","I'd like to <b>propose</b> a new schedule."],
+    ["prosper","번영하다, 번창하다","v.","The business <b>prospered</b> for decades."],
+    ["provide","제공하다","v.","We <b>provide</b> free shipping over $50."],
+    ["qualify","자격을 얻다, 자격을 주다","v.","You <b>qualify</b> for the loyalty program."],
+    ["quote","견적; 인용하다","n./v.","Could you send me a <b>quote</b> today?"],
+    ["reasonable","합리적인, 적당한","adj.","The price seems quite <b>reasonable</b>."],
+    ["recognize","인정하다, 알아보다","v.","We <b>recognize</b> outstanding employees."],
+    ["recommend","추천하다, 권하다","v.","I'd <b>recommend</b> the morning session."],
+    ["reduce","줄이다, 낮추다","v.","We aim to <b>reduce</b> costs by 10%."],
+    ["refer","참조하다, 언급하다","v.","Please <b>refer</b> to page five."],
+    ["register","등록하다; 등록부","v./n.","You can <b>register</b> at the front desk."],
+    ["regulate","규제하다, 조절하다","v.","The agency <b>regulates</b> food safety."],
+    ["reinforce","강화하다, 보강하다","v.","Training <b>reinforces</b> good habits."],
+    ["release","출시하다, 풀어주다; 발표","v./n.","They will <b>release</b> the report on Monday."],
+    ["reliable","믿을 수 있는, 신뢰성 있는","adj.","He is a <b>reliable</b> and punctual worker."],
+    ["remarkable","주목할 만한, 놀라운","adj.","The team made <b>remarkable</b> progress."],
+    ["remind","상기시키다","v.","Let me <b>remind</b> you of the deadline."],
+    ["replace","교체하다, 대체하다","v.","We'll <b>replace</b> the part free of charge."],
+    ["represent","대표하다, 나타내다","v.","She will <b>represent</b> us at the fair."],
+    ["request","요청하다; 요청","v./n.","You may <b>request</b> a refund within 7 days."],
+    ["require","요구하다, 필요로 하다","v.","This job <b>requires</b> fluent English."],
+    ["reschedule","일정을 변경하다","v.","Can we <b>reschedule</b> the call?"],
+    ["reserve","예약하다; 비축","v./n.","I'd like to <b>reserve</b> a table for four."],
+    ["resign","사임하다, 사직하다","v.","The director <b>resigned</b> last week."],
+    ["resolve","해결하다, 결심하다","v.","We <b>resolved</b> the issue within an hour."],
+    ["respective","각각의","adj.","They returned to their <b>respective</b> offices."],
+    ["restore","복원하다, 회복시키다","v.","We <b>restored</b> the old building."],
+    ["restrict","제한하다","v.","Access is <b>restricted</b> to staff."],
+    ["resume","재개하다; (résumé) 이력서","v./n.","Work will <b>resume</b> after lunch."],
+    ["retain","유지하다, 보유하다","v.","We aim to <b>retain</b> our top talent."],
+    ["retrieve","되찾다, 검색하다","v.","You can <b>retrieve</b> deleted files easily."],
+    ["reveal","드러내다, 밝히다","v.","The survey <b>revealed</b> a clear trend."],
+    ["revise","수정하다, 개정하다","v.","Please <b>revise</b> the draft by Friday."],
+    ["satisfy","만족시키다, 충족하다","v.","Our goal is to <b>satisfy</b> every customer."],
+    ["schedule","일정을 잡다; 일정","v./n.","Let's <b>schedule</b> a meeting for Tuesday."],
+    ["secure","확보하다; 안전한","v./adj.","We <b>secured</b> a major new contract."],
+    ["sufficient","충분한","adj.","We have <b>sufficient</b> stock for now."],
+    ["sustain","지속하다, 유지하다","v.","The firm <b>sustained</b> growth for years."],
+    ["thorough","철저한, 빈틈없는","adj.","They did a <b>thorough</b> inspection."],
+    ["transfer","옮기다, 이체하다; 이동","v./n.","She will <b>transfer</b> to the Tokyo office."],
+    ["urgent","긴급한","adj.","This is an <b>urgent</b> matter, please reply."],
+    ["valid","유효한, 타당한","adj.","Your ticket is <b>valid</b> for one month."],
+    ["verify","확인하다, 입증하다","v.","Please <b>verify</b> your email address."],
+    ["versatile","다재다능한, 다용도의","adj.","It's a <b>versatile</b> tool for many tasks."],
+    ["withdraw","철회하다, 인출하다","v.","He <b>withdrew</b> his application."],
+    ["yield","산출하다, 양보하다; 수익","v./n.","The investment will <b>yield</b> good returns."],
+  ];
+
+  // 저장: Claude 앱(window.storage) → 사파리/홈화면(localStorage) → 메모리 순으로 자동 선택
+  const mem = {};
+  const hasWS =
+    typeof window !== "undefined" &&
+    window.storage &&
+    typeof window.storage.get === "function";
+  function lsGet(k) {
+    try {
+      const v = localStorage.getItem(k);
+      return v == null ? null : JSON.parse(v);
+    } catch (e) { return null; }
+  }
+  function lsSet(k, v) {
+    try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {}
+  }
+  const store = {
+    async get(k) {
+      if (hasWS) {
+        try {
+          const r = await window.storage.get(k);
+          if (r) return JSON.parse(r.value);
+        } catch (e) {}
+      }
+      const ls = lsGet(k);
+      if (ls !== null) return ls;
+      return mem[k] ?? null;
+    },
+    async set(k, v) {
+      mem[k] = v;
+      if (hasWS) {
+        try { await window.storage.set(k, JSON.stringify(v)); return; } catch (e) {}
+      }
+      lsSet(k, v);
+    },
+  };
+
+  let words = [];
+  let progress = {};
+  let settings = { goal: 20, theme: "dark" };
+  let today = { date: todayKey(), list: [] };
+  let cardFilter = "all";
+  let cardIndex = 0;
+  let quizState = { correct: 0, total: 0, answered: false, current: null };
+
+  function todayKey() {
+    const d = new Date();
+    return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+  }
+  function deckFromBase() {
+    return BASE_WORDS.map((w) => ({ word: w[0], mean: w[1], pos: w[2], ex: w[3], custom: false }));
+  }
+
+  async function init() {
+    const custom = (await store.get("toeic:custom")) || [];
+    progress = (await store.get("toeic:progress")) || {};
+    settings = Object.assign({ goal: 20, theme: "dark" }, (await store.get("toeic:settings")) || {});
+    const savedToday = (await store.get("toeic:today")) || null;
+    if (savedToday && savedToday.date === todayKey()) today = savedToday;
+    else { today = { date: todayKey(), list: [] }; await store.set("toeic:today", today); }
+    words = deckFromBase().concat(custom.map((c) => ({ ...c, custom: true })));
+    applyTheme();
+    document.getElementById("goalVal").textContent = settings.goal;
+    renderAll();
+  }
+
+  function applyTheme() {
+    if (settings.theme === "light") document.documentElement.setAttribute("data-theme", "light");
+    else document.documentElement.removeAttribute("data-theme");
+    document.getElementById("themeBtn").textContent = settings.theme === "light" ? "☀️" : "🌙";
+  }
+  document.getElementById("themeBtn").addEventListener("click", async () => {
+    settings.theme = settings.theme === "light" ? "dark" : "light";
+    applyTheme();
+    await store.set("toeic:settings", settings);
+  });
+
+  function speak(text) {
+    try {
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "en-US";
+      u.rate = 0.9;
+      window.speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+
+  function renderHeader() {
+    const known = words.filter((w) => progress[w.word] === "known").length;
+    document.getElementById("counter").textContent = known + " / " + words.length;
+    const pct = words.length ? (known / words.length) * 100 : 0;
+    document.getElementById("progressFill").style.width = pct + "%";
+  }
+  function renderGoal() {
+    const done = today.list.length;
+    const goal = settings.goal;
+    document.getElementById("goalTop").textContent = "오늘 " + done + " / " + goal + " 단어";
+    document.getElementById("goalSub").textContent =
+      done >= goal ? "오늘 목표 달성! 🎉" : "조금만 더 하면 목표 달성!";
+    const C = 2 * Math.PI * 19;
+    const ratio = Math.min(done / goal, 1);
+    const rf = document.getElementById("ringFill");
+    rf.setAttribute("stroke-dashoffset", C * (1 - ratio));
+    rf.setAttribute("stroke", ratio >= 1 ? "var(--known)" : "var(--accent)");
+  }
+  async function recordToday(word) {
+    if (today.date !== todayKey()) today = { date: todayKey(), list: [] };
+    if (!today.list.includes(word)) {
+      today.list.push(word);
+      await store.set("toeic:today", today);
+      renderGoal();
+    }
+  }
+
+  const flashcard = document.getElementById("flashcard");
+  function filteredCards() {
+    if (cardFilter === "all") return words;
+    if (cardFilter === "unknown") return words.filter((w) => progress[w.word] !== "known");
+    return words.filter((w) => progress[w.word] === "known");
+  }
+  function curWord() {
+    const deck = filteredCards();
+    if (!deck.length) return null;
+    if (cardIndex >= deck.length) cardIndex = 0;
+    if (cardIndex < 0) cardIndex = deck.length - 1;
+    return deck[cardIndex];
+  }
+  function renderCard() {
+    const deck = filteredCards();
+    const count = document.getElementById("cardCount");
+    flashcard.classList.remove("flipped");
+    if (!deck.length) {
+      document.getElementById("cardWord").textContent = "🎉";
+      document.getElementById("cardPos").textContent = "";
+      document.getElementById("cardMeaning").textContent = "단어가 없어요";
+      document.getElementById("cardExample").textContent =
+        cardFilter === "known" ? "아직 외운 단어가 없어요" : "이 분류에 단어가 없어요";
+      document.getElementById("cardBadge").className = "badge";
+      document.getElementById("cardSpeak").style.visibility = "hidden";
+      count.textContent = "0 / 0";
+      return;
+    }
+    document.getElementById("cardSpeak").style.visibility = "visible";
+    if (cardIndex >= deck.length) cardIndex = 0;
+    const w = deck[cardIndex];
+    document.getElementById("cardPos").textContent = w.pos || "";
+    document.getElementById("cardWord").textContent = w.word;
+    document.getElementById("cardMeaning").textContent = w.mean;
+    document.getElementById("cardExample").innerHTML = w.ex || "";
+    const badge = document.getElementById("cardBadge");
+    const st = progress[w.word];
+    if (st === "known") { badge.className = "badge known"; badge.textContent = "외움"; }
+    else if (st === "unknown") { badge.className = "badge unknown"; badge.textContent = "복습"; }
+    else { badge.className = "badge"; badge.textContent = ""; }
+    count.textContent = cardIndex + 1 + " / " + deck.length;
+  }
+  flashcard.addEventListener("click", () => flashcard.classList.toggle("flipped"));
+  document.getElementById("cardSpeak").addEventListener("click", (e) => {
+    e.stopPropagation();
+    const w = curWord();
+    if (w) speak(w.word);
+  });
+
+  async function mark(state) {
+    const w = curWord();
+    if (!w) return;
+    progress[w.word] = state;
+    await store.set("toeic:progress", progress);
+    await recordToday(w.word);
+    if (cardFilter === "all") cardIndex++;
+    renderCard();
+    renderHeader();
+    renderList();
+  }
+  document.getElementById("markKnown").addEventListener("click", () => mark("known"));
+  document.getElementById("markUnknown").addEventListener("click", () => mark("unknown"));
+  document.getElementById("nextCard").addEventListener("click", () => { cardIndex++; renderCard(); });
+  document.getElementById("prevCard").addEventListener("click", () => { cardIndex--; renderCard(); });
+  document.querySelectorAll(".filter-pills button").forEach((b) => {
+    b.addEventListener("click", () => {
+      document.querySelectorAll(".filter-pills button").forEach((x) => x.classList.remove("on"));
+      b.classList.add("on");
+      cardFilter = b.dataset.filter;
+      cardIndex = 0;
+      renderCard();
+    });
+  });
+  document.getElementById("goalGo").addEventListener("click", () => {
+    document.querySelectorAll(".filter-pills button").forEach((x) => x.classList.remove("on"));
+    document.querySelector('.filter-pills [data-filter="unknown"]').classList.add("on");
+    cardFilter = "unknown";
+    cardIndex = 0;
+    renderCard();
+  });
+
+  function newQuiz() {
+    quizState.answered = false;
+    document.getElementById("quizNext").classList.add("hidden");
+    const answer = words[Math.floor(Math.random() * words.length)];
+    quizState.current = answer;
+    const opts = [answer];
+    const others = words.filter((w) => w.word !== answer.word);
+    while (opts.length < 4 && others.length) {
+      opts.push(others.splice(Math.floor(Math.random() * others.length), 1)[0]);
+    }
+    for (let i = opts.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [opts[i], opts[j]] = [opts[j], opts[i]];
+    }
+    document.getElementById("quizPos").textContent = answer.pos || "";
+    document.getElementById("quizWord").textContent = answer.word;
+    const box = document.getElementById("quizOptions");
+    box.innerHTML = "";
+    opts.forEach((o) => {
+      const btn = document.createElement("button");
+      btn.className = "quiz-opt";
+      btn.textContent = o.mean;
+      btn.addEventListener("click", () => answerQuiz(btn, o, answer));
+      box.appendChild(btn);
+    });
+    renderQuizScore();
+  }
+  async function answerQuiz(btn, chosen, answer) {
+    if (quizState.answered) return;
+    quizState.answered = true;
+    quizState.total++;
+    const correct = chosen.word === answer.word;
+    if (correct) quizState.correct++;
+    document.querySelectorAll(".quiz-opt").forEach((b) => {
+      b.disabled = true;
+      if (b.textContent === answer.mean) b.classList.add("correct");
+    });
+    if (!correct) { btn.classList.add("wrong"); progress[answer.word] = "unknown"; }
+    else if (!progress[answer.word]) progress[answer.word] = "known";
+    await store.set("toeic:progress", progress);
+    await recordToday(answer.word);
+    renderHeader();
+    renderQuizScore();
+    document.getElementById("quizNext").classList.remove("hidden");
+  }
+  function renderQuizScore() {
+    document.getElementById("quizScore").textContent =
+      "맞은 개수 " + quizState.correct + " · 푼 문제 " + quizState.total;
+  }
+  document.getElementById("quizNext").addEventListener("click", newQuiz);
+  document.getElementById("quizSpeak").addEventListener("click", () => {
+    if (quizState.current) speak(quizState.current.word);
+  });
+
+  const searchInput = document.getElementById("searchInput");
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"]/g, (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])
+    );
+  }
+  function renderList() {
+    const q = (searchInput.value || "").trim().toLowerCase();
+    const box = document.getElementById("listContainer");
+    const items = words.filter(
+      (w) => !q || w.word.toLowerCase().includes(q) || w.mean.includes(q)
+    );
+    if (!items.length) {
+      box.innerHTML = '<div class="empty">검색 결과가 없어요</div>';
+      return;
+    }
+    box.innerHTML = "";
+    items.forEach((w) => {
+      const st = progress[w.word] || "new";
+      const row = document.createElement("div");
+      row.className = "list-item";
+      row.innerHTML =
+        '<div class="dot ' + (st === "known" ? "known" : st === "unknown" ? "unknown" : "") + '"></div>' +
+        '<div class="li-body"><div class="li-word">' + escapeHtml(w.word) + "</div>" +
+        '<div class="li-mean">' + escapeHtml(w.mean) + "</div></div>" +
+        (w.custom ? '<div class="li-tag">내 단어</div>' : "") +
+        '<button class="li-speak">🔊</button>';
+      row.querySelector(".li-speak").addEventListener("click", () => speak(w.word));
+      box.appendChild(row);
+    });
+  }
+  searchInput.addEventListener("input", renderList);
+
+  function openModal(id) { document.getElementById(id).classList.remove("hidden"); }
+  function closeModal(el) { el.classList.add("hidden"); }
+  document.querySelectorAll(".modal-bg").forEach((bg) => {
+    bg.addEventListener("click", (e) => { if (e.target === bg) closeModal(bg); });
+  });
+  document.querySelectorAll("[data-close]").forEach((b) =>
+    b.addEventListener("click", (e) => closeModal(e.target.closest(".modal-bg")))
+  );
+
+  document.getElementById("openAdd").addEventListener("click", () => {
+    openModal("addModal");
+    document.getElementById("inWord").focus();
+  });
+  document.getElementById("saveAdd").addEventListener("click", async () => {
+    const word = document.getElementById("inWord").value.trim();
+    const mean = document.getElementById("inMean").value.trim();
+    const pos = document.getElementById("inPos").value.trim();
+    const ex = document.getElementById("inExample").value.trim();
+    if (!word || !mean) { alert("단어와 뜻은 꼭 입력해주세요"); return; }
+    const custom = (await store.get("toeic:custom")) || [];
+    custom.push({ word, mean, pos, ex });
+    await store.set("toeic:custom", custom);
+    words.push({ word, mean, pos, ex, custom: true });
+    ["inWord", "inMean", "inPos", "inExample"].forEach((i) => (document.getElementById(i).value = ""));
+    closeModal(document.getElementById("addModal"));
+    renderAll();
+  });
+
+  document.getElementById("settingsBtn").addEventListener("click", () => openModal("setModal"));
+  document.getElementById("goalPlus").addEventListener("click", async () => {
+    settings.goal = Math.min(settings.goal + 5, 200);
+    document.getElementById("goalVal").textContent = settings.goal;
+    await store.set("toeic:settings", settings);
+    renderGoal();
+  });
+  document.getElementById("goalMinus").addEventListener("click", async () => {
+    settings.goal = Math.max(settings.goal - 5, 5);
+    document.getElementById("goalVal").textContent = settings.goal;
+    await store.set("toeic:settings", settings);
+    renderGoal();
+  });
+
+  document.getElementById("importBtn").addEventListener("click", async () => {
+    const raw = document.getElementById("importBox").value.trim();
+    if (!raw) { alert("가져올 단어를 붙여넣어 주세요"); return; }
+    const lines = raw.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+    const custom = (await store.get("toeic:custom")) || [];
+    let added = 0;
+    const existing = new Set(words.map((w) => w.word.toLowerCase()));
+    lines.forEach((line) => {
+      const parts = line.split(/[\t,]/).map((p) => p.trim());
+      const word = parts[0];
+      const mean = parts[1] || "";
+      const ex = parts[2] || "";
+      if (!word || !mean) return;
+      if (existing.has(word.toLowerCase())) return;
+      existing.add(word.toLowerCase());
+      const entry = { word, mean, pos: "", ex };
+      custom.push(entry);
+      words.push({ ...entry, custom: true });
+      added++;
+    });
+    await store.set("toeic:custom", custom);
+    document.getElementById("importBox").value = "";
+    alert(added + "개 단어를 추가했어요!");
+    closeModal(document.getElementById("setModal"));
+    renderAll();
+  });
+
+  document.getElementById("resetProgress").addEventListener("click", async () => {
+    if (!confirm("외움/복습 표시를 모두 지울까요? (단어는 그대로예요)")) return;
+    progress = {};
+    today = { date: todayKey(), list: [] };
+    await store.set("toeic:progress", progress);
+    await store.set("toeic:today", today);
+    closeModal(document.getElementById("setModal"));
+    renderAll();
+  });
+
+  document.querySelectorAll("nav button").forEach((b) => {
+    b.addEventListener("click", () => {
+      document.querySelectorAll("nav button").forEach((x) => x.classList.remove("active"));
+      b.classList.add("active");
+      const tab = b.dataset.tab;
+      ["card", "quiz", "list"].forEach((t) =>
+        document.getElementById("tab-" + t).classList.toggle("hidden", t !== tab)
+      );
+      if (tab === "quiz" && !quizState.current) newQuiz();
+    });
+  });
+
+  function renderAll() {
+    renderHeader();
+    renderGoal();
+    renderCard();
+    renderList();
+  }
+
+  init();
+</script>
